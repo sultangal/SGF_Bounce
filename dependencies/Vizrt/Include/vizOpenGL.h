@@ -1,0 +1,238 @@
+/*! @file
+ * @brief this file is part of the plugin library.
+ *
+ * these defines are for vizrt internal use only.
+ * their sole purpose is the forwarding of OpenGL calls through
+ * the viz engine.
+ */
+
+/* ============================================================================= *
+ *                                                                               *
+ *  Copyright 2006,2013 Vizrt Austria GmbH                                       *
+ *  All Rights Reserved.                                                         *
+ *                                                                               *
+ *  This is PROPRIETARY SOURCE CODE ofVizrt Austria GmbH;                        *
+ *  the contents of this file may not be disclosed to third parties, copied or   *
+ *  duplicated in any form, in whole or in part, without the prior written       *
+ *  permission of Vizrt Austria GmbH                                             *
+ *                                                                               *
+ * ============================================================================= */
+
+/*  CAUTION:
+ *  --------
+ *  This file contains no user-modifiable data
+ *  Under no circumstances change anything in this file without an
+ *  explicit order from Vizrt Austria GmbH
+ *
+ */
+
+#ifndef __vizOglSDK_h__
+#define __vizOglSDK_h__
+
+
+
+
+
+    #include "vizOGL.h"
+    #include "vizOGLContext.h"
+
+#ifndef GL_DO_NOT_AUTO_REDIRECT_TO_VIZGL
+    #define IMPLEMENT_GLCALL(foo)   VIZGLFUNC(foo)
+
+    #define glAccum                         IMPLEMENT_GLCALL(glAccum)
+    #define glAlphaFunc                     IMPLEMENT_GLCALL(glAlphaFunc)
+    #define glArrayElement                  IMPLEMENT_GLCALL(glArrayElement)
+    #define glBegin                         IMPLEMENT_GLCALL(glBegin)
+    #define glBindTexture                   IMPLEMENT_GLCALL(glBindTexture)
+    #define glBindBuffer                    IMPLEMENT_GLCALL(glBindBuffer)
+    #define glBitmap                        IMPLEMENT_GLCALL(glBitmap)
+    #define glBlendFunc                     IMPLEMENT_GLCALL(glBlendFunc)
+    #define glBlendFuncSeparateEXT          IMPLEMENT_GLCALL(glBlendFuncSeparateEXT)
+    #define glBlendEquationEXT              IMPLEMENT_GLCALL(glBlendEquationEXT)
+    #define glCallList                      IMPLEMENT_GLCALL(glCallList)
+    #define glCallLists                     IMPLEMENT_GLCALL(glCallLists)
+    #define glClear                         IMPLEMENT_GLCALL(glClear)
+    #define glClearAccum                    IMPLEMENT_GLCALL(glClearAccum)
+    #define glClearColor                    IMPLEMENT_GLCALL(glClearColor)
+    #define glClearDepth                    IMPLEMENT_GLCALL(glClearDepth)
+    #define glClearStencil                  IMPLEMENT_GLCALL(glClearStencil)
+    #define glClipPlane                     IMPLEMENT_GLCALL(glClipPlane)
+    #define glClientActiveTexture           IMPLEMENT_GLCALL(glClientActiveTexture)
+    #define glColor3ub                      IMPLEMENT_GLCALL(glColor3ub)
+    #define glColor4ub                      IMPLEMENT_GLCALL(glColor4ub)
+    #define glColor4ubv                     IMPLEMENT_GLCALL(glColor4ubv)
+    #define glColor3f                       IMPLEMENT_GLCALL(glColor3f)
+    #define glColor3fv                      IMPLEMENT_GLCALL(glColor3fv)
+    #define glColor4f                       IMPLEMENT_GLCALL(glColor4f)
+    #define glColor4fv                      IMPLEMENT_GLCALL(glColor4fv)
+    #define glColorMask                     IMPLEMENT_GLCALL(glColorMask)
+    #define glColorMaterial                 IMPLEMENT_GLCALL(glColorMaterial)
+    #define glColorPointer                  IMPLEMENT_GLCALL(glColorPointer)
+    #define glCopyTexSubImage2D             IMPLEMENT_GLCALL(glCopyTexSubImage2D)
+    #define glDeleteLists                   IMPLEMENT_GLCALL(glDeleteLists)
+    #define glDeleteTextures                IMPLEMENT_GLCALL(glDeleteTextures)
+    #define glDeleteBuffers                 IMPLEMENT_GLCALL(glDeleteBuffers)
+    #define glDepthFunc                     IMPLEMENT_GLCALL(glDepthFunc)
+    #define glDepthRange                    IMPLEMENT_GLCALL(glDepthRange)
+    #define glDepthMask                     IMPLEMENT_GLCALL(glDepthMask)
+    #define glDisable                       IMPLEMENT_GLCALL(glDisable)
+    #define glDisableClientState            IMPLEMENT_GLCALL(glDisableClientState)
+    #define glDrawArrays                    IMPLEMENT_GLCALL(glDrawArrays)
+    #define glDrawBuffer                    IMPLEMENT_GLCALL(glDrawBuffer)
+    #define glDrawElements                  IMPLEMENT_GLCALL(glDrawElements)
+    #define glDrawPixels                    IMPLEMENT_GLCALL(glDrawPixels)
+    #define glEnable                        IMPLEMENT_GLCALL(glEnable)
+    #define glEnableClientState             IMPLEMENT_GLCALL(glEnableClientState)
+    #define glEnd                           IMPLEMENT_GLCALL(glEnd)
+    #define glEndList                       IMPLEMENT_GLCALL(glEndList)
+    #define glFinish                        IMPLEMENT_GLCALL(glFinish)
+    #define glFlush                         IMPLEMENT_GLCALL(glFlush)
+    #define glFrontFace                     IMPLEMENT_GLCALL(glFrontFace)
+    #define glLightModel                    IMPLEMENT_GLCALL(glLightModel)
+    #define glLightModelf                   glLightModel
+    #define glIsList                        IMPLEMENT_GLCALL(glIsList)
+    #define glIsTexture                     IMPLEMENT_GLCALL(glIsTexture)
+    #define glGenLists                      IMPLEMENT_GLCALL(glGenLists)
+    #define glGenTextures                   IMPLEMENT_GLCALL(glGenTextures)
+    #define glGenBuffers                    IMPLEMENT_GLCALL(glGenBuffers)
+    #define glBufferData                    IMPLEMENT_GLCALL(glBufferData)
+    #define glGetError                      IMPLEMENT_GLCALL(glGetError)
+    #define glGetIntegerv                   IMPLEMENT_GLCALL(glGetIntegerv)
+    #define glGetFloatv                     IMPLEMENT_GLCALL(glGetFloatv)
+    #define glGetTexImage                   IMPLEMENT_GLCALL(glGetTexImage)
+    #define glGetTexLevelParameteriv        IMPLEMENT_GLCALL(glGetTexLevelParameteriv)
+    #define glGetString                     IMPLEMENT_GLCALL(glGetString)
+    #define glHint                          IMPLEMENT_GLCALL(glHint)
+    #define glLightf                        IMPLEMENT_GLCALL(glLightf)
+    #define glLightfv                       IMPLEMENT_GLCALL(glLightfv)
+    #define glLineStipple                   IMPLEMENT_GLCALL(glLineStipple)
+    #define glLineWidth                     IMPLEMENT_GLCALL(glLineWidth)
+    #define glListBase                      IMPLEMENT_GLCALL(glListBase)
+    #define glLoadIdentity                  IMPLEMENT_GLCALL(glLoadIdentity)
+    #define glLoadMatrixf                   IMPLEMENT_GLCALL(glLoadMatrixf)
+    #define glLogicOp                       IMPLEMENT_GLCALL(glLogicOp)
+    #define glMaterialfv                    IMPLEMENT_GLCALL(glMaterialfv)
+    #define glMatrixMode                    IMPLEMENT_GLCALL(glMatrixMode)
+    #define glMultMatrixf                   IMPLEMENT_GLCALL(glMultMatrixf)
+    #define glNewList                       IMPLEMENT_GLCALL(glNewList)
+    #define glNormal3f                      IMPLEMENT_GLCALL(glNormal3f)
+    #define glNormal3sv                     IMPLEMENT_GLCALL(glNormal3sv)
+    #define glNormalPointer                 IMPLEMENT_GLCALL(glNormalPointer)
+    #define glPixelStorei                   IMPLEMENT_GLCALL(glPixelStorei)
+    #define glPixelZoom                     IMPLEMENT_GLCALL(glPixelZoom)
+    #define glPointSize                     IMPLEMENT_GLCALL(glPointSize)
+    #define glPolygonMode                   IMPLEMENT_GLCALL(glPolygonMode)
+    #define glPopMatrix                     IMPLEMENT_GLCALL(glPopMatrix)
+    #define glPushMatrix                    IMPLEMENT_GLCALL(glPushMatrix)
+    #define glPushName                      IMPLEMENT_GLCALL(glPushName)
+    #define glPopName                       IMPLEMENT_GLCALL(glPopName)
+    #define glInitNames                     IMPLEMENT_GLCALL(glInitNames)
+    #define glRasterPos2d                   IMPLEMENT_GLCALL(glRasterPos2d)
+    #define glRasterPos2dv                  IMPLEMENT_GLCALL(glRasterPos2dv)
+    #define glRasterPos2f                   IMPLEMENT_GLCALL(glRasterPos2f)
+    #define glRasterPos2i                   IMPLEMENT_GLCALL(glRasterPos2i)
+    #define glRasterPos3f                   IMPLEMENT_GLCALL(glRasterPos3f)
+    #define glRectf                         IMPLEMENT_GLCALL(glRectf)
+    #define glReadBuffer                    IMPLEMENT_GLCALL(glReadBuffer)
+    #define glReadPixels                    IMPLEMENT_GLCALL(glReadPixels)
+    #define glRotatef                       IMPLEMENT_GLCALL(glRotatef)
+    #define glSampleMask                    IMPLEMENT_GLCALL(glSampleMask)
+    #define glScalef                        IMPLEMENT_GLCALL(glScalef)
+    #define glScissor                       IMPLEMENT_GLCALL(glScissor)
+    #define glShadeModel                    IMPLEMENT_GLCALL(glShadeModel)
+    #define glStencilFunc                   IMPLEMENT_GLCALL(glStencilFunc)
+    #define glStencilMask                   IMPLEMENT_GLCALL(glStencilMask)
+    #define glStencilOp                     IMPLEMENT_GLCALL(glStencilOp)
+    #define glTexCoord2f                    IMPLEMENT_GLCALL(glTexCoord2f)
+    #define glTexCoord2fv                   IMPLEMENT_GLCALL(glTexCoord2fv)
+    #define glTexCoord2sv                   IMPLEMENT_GLCALL(glTexCoord2sv)
+    #define glTexCoord2s                    IMPLEMENT_GLCALL(glTexCoord2s)
+    #define glTexCoordPointer               IMPLEMENT_GLCALL(glTexCoordPointer)
+    #define glGetTexEnviv                   IMPLEMENT_GLCALL(glGetTexEnviv)
+    #define glGetTexEnvfv                   IMPLEMENT_GLCALL(glGetTexEnvfv)
+    #define glTexEnvfv                      IMPLEMENT_GLCALL(glTexEnvfv)
+    #define glTexEnvf                       IMPLEMENT_GLCALL(glTexEnvf)
+    #define glTexEnvi                       IMPLEMENT_GLCALL(glTexEnvi)
+    #define glTexGenfv                      IMPLEMENT_GLCALL(glTexGenfv)
+    #define glTexGeni                       IMPLEMENT_GLCALL(glTexGeni)
+    #define glTexImage2D                    IMPLEMENT_GLCALL(glTexImage2D)
+    #define glTexImage3D                    IMPLEMENT_GLCALL(glTexImage3D)
+    #define glTexParameterf                 IMPLEMENT_GLCALL(glTexParameterf)
+    #define glTexParameterfv                IMPLEMENT_GLCALL(glTexParameterfv)
+    #define glTexParameteri                 IMPLEMENT_GLCALL(glTexParameteri)
+    #define glTexParameteriv                IMPLEMENT_GLCALL(glTexParameteriv)
+    #define glTexSubImage2D                 IMPLEMENT_GLCALL(glTexSubImage2D)
+    #define glTranslatef                    IMPLEMENT_GLCALL(glTranslatef)
+    #define glVertex2f                      IMPLEMENT_GLCALL(glVertex2f)
+    #define glVertex2i                      IMPLEMENT_GLCALL(glVertex2i)
+    #define glVertex3f                      IMPLEMENT_GLCALL(glVertex3f)
+    #define glVertex3fv                     IMPLEMENT_GLCALL(glVertex3fv)
+    #define glVertexPointer                 IMPLEMENT_GLCALL(glVertexPointer)
+    #define glViewport                      IMPLEMENT_GLCALL(glViewport)
+    #define glPopAttrib                     IMPLEMENT_GLCALL(glPopAttrib)
+    #define glPushAttrib                    IMPLEMENT_GLCALL(glPushAttrib)
+    #define glEnableClientState             IMPLEMENT_GLCALL(glEnableClientState)
+    #define glDisableClientState            IMPLEMENT_GLCALL(glDisableClientState)
+    #define glArrayElement                  IMPLEMENT_GLCALL(glArrayElement)
+    #define glDrawElements                  IMPLEMENT_GLCALL(glDrawElements)
+    #define glActiveTexture                 IMPLEMENT_GLCALL(glActiveTexture)
+    #define glClientActiveTexture           IMPLEMENT_GLCALL(glClientActiveTexture)
+    #define glVertexAttribPointerARB        IMPLEMENT_GLCALL(glVertexAttribPointerARB)
+    #define glEnableVertexAttribArrayARB    IMPLEMENT_GLCALL(glEnableVertexAttribArrayARB)
+    #define glDisableVertexAttribArrayARB   IMPLEMENT_GLCALL(glDisableVertexAttribArrayARB)
+    #define glGetAttribLocationARB          IMPLEMENT_GLCALL(glGetAttribLocationARB)
+    #define glGetUniformLocationARB         IMPLEMENT_GLCALL(glGetUniformLocationARB)
+    #define glUniform1i                     IMPLEMENT_GLCALL(glUniform1i)
+    #define glUniform1f                     IMPLEMENT_GLCALL(glUniform1f)
+    #define glUniform1fv                    IMPLEMENT_GLCALL(glUniform1fv)
+    #define glUniform2f                     IMPLEMENT_GLCALL(glUniform2f)
+    #define glUniform2fv                    IMPLEMENT_GLCALL(glUniform2fv)
+    #define glUniform3f                     IMPLEMENT_GLCALL(glUniform3f)
+    #define glUniform3fv                    IMPLEMENT_GLCALL(glUniform3fv)
+    #define glUniform4f                     IMPLEMENT_GLCALL(glUniform4f)
+    #define glUniform4fv                    IMPLEMENT_GLCALL(glUniform4fv)
+    #define glUniformMatrix4fv              IMPLEMENT_GLCALL(glUniformMatrix4fv)
+    #define glAttachShader                  IMPLEMENT_GLCALL(glAttachShader)
+    #define glDetachShader                  IMPLEMENT_GLCALL(glDetachShader)
+    #define glCreateProgram                 IMPLEMENT_GLCALL(glCreateProgram)
+    #define glDeleteProgram                 IMPLEMENT_GLCALL(glDeleteProgram)
+    #define glLinkProgram                   IMPLEMENT_GLCALL(glLinkProgram)
+    #define glUseProgram                    IMPLEMENT_GLCALL(glUseProgram)
+    #define glCreateShader                  IMPLEMENT_GLCALL(glCreateShader)
+    #define glDeleteShader                  IMPLEMENT_GLCALL(glDeleteShader)
+    #define glShaderSourceARB               IMPLEMENT_GLCALL(glShaderSourceARB)
+    #define glCompileShader                 IMPLEMENT_GLCALL(glCompileShader)
+    #define glGetShaderiv                   IMPLEMENT_GLCALL(glGetShaderiv)
+    #define glGetShaderInfoLog              IMPLEMENT_GLCALL(glGetShaderInfoLog)
+    #define glProgramParameteriEXT          IMPLEMENT_GLCALL(glProgramParameteriEXT)
+    #define glGetProgramiv                  IMPLEMENT_GLCALL(glGetProgramiv)
+    #define glGetProgramInfoLog             IMPLEMENT_GLCALL(glGetProgramInfoLog)
+    #define glGenRenderbuffersEXT           IMPLEMENT_GLCALL(glGenRenderbuffersEXT)
+    #define glDeleteRenderbuffersEXT        IMPLEMENT_GLCALL(glDeleteRenderbuffersEXT)
+    #define glBindRenderbufferEXT           IMPLEMENT_GLCALL(glBindRenderbufferEXT)
+    #define glRenderbufferStorageEXT        IMPLEMENT_GLCALL(glRenderbufferStorageEXT)
+    #define glMapBuffer                     IMPLEMENT_GLCALL(glMapBuffer)
+    #define glUnmapBuffer                   IMPLEMENT_GLCALL(glUnmapBuffer)
+
+    // --GLU----------------------------------------------------------------------------------
+    #define gluBuild2DMipmaps               IMPLEMENT_GLCALL(gluBuild2DMipmaps)
+    #define gluDeleteTess                   IMPLEMENT_GLCALL(gluDeleteTess)
+    #define gluErrorString                  IMPLEMENT_GLCALL(gluErrorString)
+    #define gluNewQuadric                   IMPLEMENT_GLCALL(gluNewQuadric)
+    #define gluNewTess                      IMPLEMENT_GLCALL(gluNewTess)
+    #define gluOrtho2D                      IMPLEMENT_GLCALL(gluOrtho2D)
+    #define gluPerspective                  IMPLEMENT_GLCALL(gluPerspective)
+    #define gluQuadricDrawStyle             IMPLEMENT_GLCALL(gluQuadricDrawStyle)
+    #define gluScaleImage                   IMPLEMENT_GLCALL(gluScaleImage)
+    #define gluSphere                       IMPLEMENT_GLCALL(gluSphere)
+    #define gluTessBeginContour             IMPLEMENT_GLCALL(gluTessBeginContour)
+    #define gluTessBeginPolygon             IMPLEMENT_GLCALL(gluTessBeginPolygon)
+    #define gluTessCallback                 IMPLEMENT_GLCALL(gluTessCallback)
+    #define gluTessEndContour               IMPLEMENT_GLCALL(gluTessEndContour)
+    #define gluTessEndPolygon               IMPLEMENT_GLCALL(gluTessEndPolygon)
+    #define gluTessVertex                   IMPLEMENT_GLCALL(gluTessVertex)
+    #define gluUnProject                    IMPLEMENT_GLCALL(gluUnProject)
+    #define gluProject                      IMPLEMENT_GLCALL(gluProject)
+#endif
+
+#endif
