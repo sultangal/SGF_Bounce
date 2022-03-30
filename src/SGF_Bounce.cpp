@@ -15,8 +15,7 @@ BouncePlugin::BouncePlugin(PLUGIN_DATA* pData)
 BouncePlugin::~BouncePlugin() {}
 
 void BouncePlugin::Init()
-{
-   
+{ 
     evRegisterPlugin(PLUGIN_NAME);
     evRegisterPluginType(EV_FUNCTION);
     evRegisterPluginFolder("SGF_Plugins");
@@ -27,110 +26,92 @@ void BouncePlugin::Init()
     evRegisterParameterFloat("velocity", "Velocity", 1.0f, -1000.0f, 1000.0f);
     evRegisterParameterDropDown("animChannel", "Select animation channel", 0, nullptr, 10, 10);
 
-    evRegisterPushButton("update", "Update", 3);
+    evRegisterPushButton("pushButton", "Bake Animation", 3);
 
     evRegisterPluginVersion(0, 0, 1);
     evRegisterTotalSize(sizeof(BouncePlugin));
 }
 
-void BouncePlugin::MakeChannelBounce()
-{   
-    CONTAINER cont;
-    cont.local();
-    cont.get_animation_channels(channels);
-    int channelCount = channels.GetSize();
-
-    if (channelCount > 0)
+void BouncePlugin::MakeChannelBounce(double currTime, bool bake)
+{    
+    if (UpdateChannelList())
     {
-        const char* pName = {};
-        const char** some = new const char* [channelCount+1]{};
-        for (unsigned int i = 0; i < channelCount; i++)
+        int chanId = channels[m_vDropDwnSelection].GetID();                 
+        int keyframeIndex = 0;
+        int keyframeID = 0;
+        double keyTime = 0.0;
+        double deltaTime = 0.0;
+        GetNearestKeyframe(currTime, keyframeID, keyframeIndex, keyTime, deltaTime);
+
+        const char* channelName = nullptr;
+        channels[m_vDropDwnSelection].get_name(&channelName);
+        std::string sChanName = channelName;
+        if (sChanName == "Position" || sChanName == "Rotation" || sChanName == "Scaling")
         {
-            if (channels[i].valid())
+            float pValue[3] = { 0.0f, 0.0f, 0.0f };
+            CalculateValueXYZ(keyframeID, keyTime, keyframeIndex, currTime, deltaTime, pValue);
+            if (sChanName == "Position")
             {
-                channels[i].get_name(&pName);
-                some[i] = pName;
-            }
-        }
-        evUpdateParameterEntries("animChannel", some);      
-
-        if (m_vDropDwnSelection <= channelCount)
-        {
-            int chanId = channels[m_vDropDwnSelection].GetID();
-
-            double currTime = 0.0;
-            _api__stage_get_time(_api__stage_get_local_id(), &currTime);
-
-            double deltaTime = 0.0;
-            int keyframeNumber = 0;
-            int* keyframeIdArr = {};
-            double dTime = DBL_MAX;
-            double keyframeTime = 0.0;
-            int keyIndex = 0;
-            _api__channel_get_keyframes(chanId, &keyframeNumber, &keyframeIdArr);
-            for (int i = 0; i < keyframeNumber; i++)
-            {
-                _api__keyframe_get_time(keyframeIdArr[i], &keyframeTime);
-                double tt = abs(currTime - keyframeTime);
-                if (tt < dTime)
-                {
-                    dTime = tt;
-                    keyIndex = i;
+                VIZ_POSITION pos = VIZ_POSITION();
+                pos.local();
+                pos.set(pValue[0], pValue[1], pValue[2]);
+                if (bake) {
+                    KEYFRAME_XYZ key = KEYFRAME_XYZ();
+                    key.set(pValue[0], pValue[1], pValue[2]);
+                    channels[m_vDropDwnSelection].add_keyframe(currTime, key);
                 }
             }
 
-            double keyframeTime2 = 0.0;
-            _api__keyframe_get_time(keyframeIdArr[keyIndex], &keyframeTime2);
-            if (keyframeTime2 > currTime) {
-                keyIndex--;
+            if (sChanName == "Rotation")
+            {
+                ROTATION rot = ROTATION();
+                rot.local();
+                rot.set(pValue[0], pValue[1], pValue[2]);
             }
 
-            double keyTime = 0.0;
-            if (keyIndex == 0) {
-                deltaTime = 0.0;
-            }
-            else {
-                _api__keyframe_get_time(keyframeIdArr[keyIndex], &keyTime);
-                deltaTime = currTime - keyTime;
-            }
-
-            float keyValue = 0.0f;
-            _api__keyframe_get_float_value(keyframeIdArr[keyIndex], &keyValue);
-
+            if (sChanName == "Scaling")
+            {
+                SCALING scale = SCALING();
+                scale.local();
+                scale.set(pValue[0], pValue[1], pValue[2]);
+            }             
+ 
+        }
+        else {
             float pValue = 0.0f;
-            _api__channel_float_get_frame_by_time(chanId, keyTime - 0.02, &pValue);
-
-            float velocity = (keyValue - pValue) * m_fVelocity;
-
-            _api__channel_float_get_frame_by_time(chanId, currTime, &pValue);
-
-            if (!velocity == 0 && keyIndex > 0) {
-                pValue = pValue + velocity * m_fAmp * sin(m_fFreq * deltaTime * 2.0f * PI) / exp(m_fDec * deltaTime);
-            }
-            else {
-                _api__channel_float_get_frame_by_time(chanId, currTime, &pValue);
-            }
-
+            CalculateValueFloat(keyframeID, keyTime, keyframeIndex, currTime, deltaTime, pValue);
             GEOMETRY geom = GEOMETRY();
             geom.local();
-            char** geomName = new char* ();
-            geom.get_type(geomName);
-
-            const char** channelName = new const char* ();
-            _api__channel_get_name(chanId, channelName);
+            char* geomName = nullptr;
+            geom.get_type(&geomName);
             PLUGIN_PARAMETER pparam = PLUGIN_PARAMETER();
-            pparam.Init(*geomName, *channelName);
+            pparam.Init(geomName, channelName);
             pparam = pValue;
             geom.set(pparam);
-            delete[] channelName;
-            delete[] geomName;
-        }        
-        delete[] some;
+        }               
+    }   
+}
+
+void BouncePlugin::BakeAnimation(int n_VarID)
+{
+    //TODO: make proper bake method
+    if (n_VarID == 3)
+    {
+        DIRECTOR dir = DIRECTOR();
+        channels[m_vDropDwnSelection].get_director(dir);
+        double dirEndTime = 0.0;
+        dir.get_end_time(false, &dirEndTime);
+        double currTime = 0.0;
+        printf("VALUE : %f \n", dirEndTime);
+        while (currTime <= dirEndTime)
+        {
+            MakeChannelBounce(currTime, true);
+            currTime = currTime + 0.02;
+        }
     }
 }
 
-
-
+//printf("VALUE : %d \n", value);
 
 
 
